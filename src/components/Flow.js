@@ -102,7 +102,7 @@ const Flow = () => {
       setMenu({
         id: node.id,
         top: event.clientY < pane.height - 200 && event.clientY,
-        left: event.clientX < pane.width && event.clientX,
+        left: event.clientX < pane.width && event.clientX - 336,
         right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
         bottom:
           event.clientY >= pane.height - 200 && pane.height - event.clientY,
@@ -137,7 +137,11 @@ const Flow = () => {
           <MiniMap />
           <Controls />
           <Background />
-          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
+          {menu && (
+            <div className='bg-red-300'>
+              <ContextMenu onClick={onPaneClick} {...menu} />
+            </div>
+          )}
           <div className='absolute right-0 m-5 z-50'>
             <div className='py-2 px-6 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white cursor-pointer'>
               Save

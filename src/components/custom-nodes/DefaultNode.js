@@ -4,7 +4,7 @@ import { Handle, Position } from 'reactflow';
 const DefaultNode = (data) => {
   const { label } = data;
   return (
-    <div className='flex bg-white p-2 border-[1px] rounded-md capitalize min-w-40 justify-center'>
+    <div className='flex bg-white p-2 border-[1px] rounded-md capitalize min-w-40 justify-center hover:shadow-md transition-all duration-300'>
       <p className='font-semibold'>{label || 'Default'}</p>
       <Handle type='target' position={Position.Top} />
       <Handle type='source' position={Position.Bottom} />
