@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -98,11 +98,12 @@ const Flow = () => {
     (event, node) => {
       event.preventDefault();
       const pane = ref.current.getBoundingClientRect();
-      console.log(event.clientX);
+
       setMenu({
         id: node.id,
         top: event.clientY < pane.height - 200 && event.clientY,
-        left: event.clientX < pane.width && event.clientX - 336,
+        left:
+          event.clientX < pane.width && event.clientX - window.innerWidth / 5,
         right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
         bottom:
           event.clientY >= pane.height - 200 && pane.height - event.clientY,

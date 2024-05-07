@@ -32,7 +32,7 @@ export default function ContextMenu({
     setNodes((nodes) => nodes.filter((node) => node.id !== id));
     setEdges((edges) => edges.filter((edge) => edge.source !== id));
   }, [id, setNodes, setEdges]);
-  console.log(top, left, right, bottom, 'humm');
+
   return (
     <div
       style={{ top, left, right, bottom }}
