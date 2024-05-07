@@ -3,7 +3,7 @@ import Flow from './components/Flow';
 
 function App() {
   return (
-    <div>
+    <div className='overflow-hidden'>
       <Flow />
     </div>
   );

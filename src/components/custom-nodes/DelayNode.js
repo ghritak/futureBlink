@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { HiOutlineClock } from 'react-icons/hi';
 import { Handle, Position } from 'reactflow';
 
@@ -6,7 +6,7 @@ const DelayNode = ({ data }) => {
   const { days, label } = data;
 
   return (
-    <div className='flex bg-white p-3 border-[1px] rounded-md'>
+    <div className='flex bg-white p-3 border-[1px] rounded-md capitalize min-w-56'>
       <div className='p-2 border-[1px] border-[#01a7ff] rounded-md bg-[#eaf1f7]'>
         <HiOutlineClock color='#01a7ff' size={30} />
       </div>
@@ -20,4 +20,4 @@ const DelayNode = ({ data }) => {
   );
 };
 
-export default DelayNode;
+export default memo(DelayNode);

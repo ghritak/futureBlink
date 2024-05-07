@@ -6,12 +6,14 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  Background,
 } from 'reactflow';
 
 import 'reactflow/dist/style.css';
 import EmailNode from './custom-nodes/EmailNode';
 import DelayNode from './custom-nodes/DelayNode';
 import SideBar from './side-bar/SideBar';
+import DefaultNode from './custom-nodes/DefaultNode';
 
 const initialNodes = [
   {
@@ -37,6 +39,7 @@ const initialNodes = [
 const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
 
 const nodeTypes = {
+  defaultNode: DefaultNode,
   email: EmailNode,
   delay: DelayNode,
 };
@@ -77,8 +80,9 @@ const Flow = () => {
         id: getId(),
         type,
         position,
-        data: { label: `${type} node` },
+        data: { label: type },
       };
+      console.log(type);
 
       setNodes((nds) => nds.concat(newNode));
     },
@@ -87,10 +91,10 @@ const Flow = () => {
 
   return (
     <div className='w-screen h-screen bg-gray-300 flex'>
-      <div className='h-screen w-1/4 bg-white'>
+      <div className='h-screen w-1/5 bg-white'>
         <SideBar />
       </div>
-      <div className='h-screen w-3/4'>
+      <div className='h-screen w-4/5'>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -105,6 +109,12 @@ const Flow = () => {
         >
           <MiniMap />
           <Controls />
+          <Background />
+          <div className='absolute right-0 m-5 z-50'>
+            <div className='py-2 px-6 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white cursor-pointer'>
+              Save
+            </div>
+          </div>
         </ReactFlow>
       </div>
     </div>
