@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -14,6 +14,9 @@ import EmailNode from './custom-nodes/EmailNode';
 import DelayNode from './custom-nodes/DelayNode';
 import SideBar from './side-bar/SideBar';
 import DefaultNode from './custom-nodes/DefaultNode';
+import ContextMenu from './menu/ContextMenu';
+
+import './menu/style.css';
 
 const initialNodes = [
   {
@@ -51,6 +54,8 @@ const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [menu, setMenu] = useState(null);
+  const ref = useRef(null);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -89,6 +94,25 @@ const Flow = () => {
     [reactFlowInstance]
   );
 
+  const onNodeContextMenu = useCallback(
+    (event, node) => {
+      event.preventDefault();
+      const pane = ref.current.getBoundingClientRect();
+      console.log(event.clientX);
+      setMenu({
+        id: node.id,
+        top: event.clientY < pane.height - 200 && event.clientY,
+        left: event.clientX < pane.width && event.clientX,
+        right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
+        bottom:
+          event.clientY >= pane.height - 200 && pane.height - event.clientY,
+      });
+    },
+    [setMenu]
+  );
+
+  const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
+
   return (
     <div className='w-screen h-screen bg-gray-300 flex'>
       <div className='h-screen w-1/5 bg-white'>
@@ -96,6 +120,7 @@ const Flow = () => {
       </div>
       <div className='h-screen w-4/5'>
         <ReactFlow
+          ref={ref}
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
@@ -105,11 +130,14 @@ const Flow = () => {
           onInit={setReactFlowInstance}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onPaneClick={onPaneClick}
+          onNodeContextMenu={onNodeContextMenu}
           fitView
         >
           <MiniMap />
           <Controls />
           <Background />
+          {menu && <ContextMenu onClick={onPaneClick} {...menu} />}
           <div className='absolute right-0 m-5 z-50'>
             <div className='py-2 px-6 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white cursor-pointer'>
               Save
