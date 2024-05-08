@@ -24,7 +24,12 @@ const RouteComponent = () => {
     }
   };
 
-  if (authStatus === 'INIT') return <LoaderView />;
+  if (authStatus === 'INIT')
+    return (
+      <div className='w-screen h-screen'>
+        <LoaderView />
+      </div>
+    );
 
   return (
     <BrowserRouter>

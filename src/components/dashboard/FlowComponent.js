@@ -19,34 +19,34 @@ import Button from '../ui-components/button/Button';
 import 'reactflow/dist/style.css';
 import '../menu/style.css';
 
-const initialNodes = [
-  {
-    id: '1',
-    position: { x: 0, y: 0 },
-    data: {
-      label: 'Email',
-      content: 'This is email content',
-    },
-    type: 'email',
-  },
-  {
-    id: '2',
-    position: { x: 100, y: 200 },
-    data: { label: 'Delay', content: 'Wait 4 days' },
-    type: 'delay',
-  },
-  {
-    id: '3',
-    position: { x: 0, y: 400 },
-    data: { label: 'Another Delay', content: 'Wait 0 day' },
-    type: 'delay',
-  },
-];
+// const initialNodes = [
+//   {
+//     id: '1',
+//     position: { x: 0, y: 0 },
+//     data: {
+//       label: 'Email',
+//       content: 'This is email content',
+//     },
+//     type: 'email',
+//   },
+//   {
+//     id: '2',
+//     position: { x: 100, y: 200 },
+//     data: { label: 'Delay', content: 'Wait 4 days' },
+//     type: 'delay',
+//   },
+//   {
+//     id: '3',
+//     position: { x: 0, y: 400 },
+//     data: { label: 'Another Delay', content: 'Wait 0 day' },
+//     type: 'delay',
+//   },
+// ];
 
-const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
-  { id: 'e2-3', source: '2', target: '3' },
-];
+// const initialEdges = [
+//   { id: 'e1-2', source: '1', target: '2' },
+//   { id: 'e2-3', source: '2', target: '3' },
+// ];
 
 const nodeTypes = {
   defaultNode: DefaultNode,
@@ -57,9 +57,15 @@ const nodeTypes = {
 
 const generateNodeId = () => `${Date.now()}`;
 
-const FlowComponent = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+const FlowComponent = ({ flowData }) => {
+  console.log(
+    'flowData',
+    flowData?.nodes,
+    typeof flowData?.nodes,
+    typeof [1, 2, 3]
+  );
+  const [nodes, setNodes, onNodesChange] = useNodesState(flowData?.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flowData?.edges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [menu, setMenu] = useState(null);
   const [showSaveButton, setShowSaveButton] = useState(false);
@@ -130,7 +136,7 @@ const FlowComponent = () => {
 
   const handleNodeChange = (e) => {
     if (count.current === 0) {
-      if (JSON.stringify(nodes) !== JSON.stringify(initialNodes)) {
+      if (JSON.stringify(nodes) !== JSON.stringify(flowData?.nodes)) {
         setShowSaveButton(true);
         count.current += 1;
       }
