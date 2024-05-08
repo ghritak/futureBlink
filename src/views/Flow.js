@@ -10,16 +10,16 @@ import ReactFlow, {
 } from 'reactflow';
 
 import 'reactflow/dist/style.css';
-import EmailNode from './custom-nodes/EmailNode';
-import DelayNode from './custom-nodes/DelayNode';
-import SideBar from './side-bar/SideBar';
-import DefaultNode from './custom-nodes/DefaultNode';
-import ContextMenu from './menu/ContextMenu';
 
-import './menu/style.css';
-import CompleteNode from './custom-nodes/CompleteNode';
-import Button from './ui-components/Button';
+// import './components/menu/style.css';
+import CompleteNode from '../components/custom-nodes/CompleteNode';
+import DelayNode from '../components/custom-nodes/DelayNode';
+import EmailNode from '../components/custom-nodes/EmailNode';
+import DefaultNode from '../components/custom-nodes/DefaultNode';
 import { capitalizeString, generateContent } from '../utils';
+import SideBar from '../components/side-bar/SideBar';
+import ContextMenu from '../components/menu/ContextMenu';
+import Button from '../components/ui-components/button/Button';
 
 const initialNodes = [
   {
