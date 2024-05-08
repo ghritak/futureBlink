@@ -1,12 +1,13 @@
 import React from 'react';
+import Loader from '../loader/Loader';
 
-const Button = ({ onClick }) => {
+const Button = ({ title, onClick, loading }) => {
   return (
     <button
       onClick={onClick}
-      className='py-2 px-6 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white'
+      className='h-10 w-24 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white'
     >
-      Save
+      {!loading ? title : <Loader size='16' color='white' />}
     </button>
   );
 };

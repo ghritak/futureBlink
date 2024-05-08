@@ -34,6 +34,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [menu, setMenu] = useState(null);
   const [showSaveButton, setShowSaveButton] = useState(false);
+  const [isSaving, setSaving] = useState(false);
   const ref = useRef(null);
   const count = useRef(0);
 
@@ -116,6 +117,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
 
   const updateFlowChart = async () => {
     try {
+      setSaving(true);
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/flow/updateFlow`,
         {
@@ -135,8 +137,10 @@ const FlowComponent = ({ flowData, user: { token } }) => {
         console.log(data?.error);
       }
       count.current = 0;
+      setSaving(false);
     } catch (err) {
       console.log('Could not update flow data', err);
+      setSaving(false);
     }
   };
 
@@ -170,7 +174,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
       )}
       {showSaveButton && (
         <div className='absolute right-0 m-5 z-50'>
-          <Button onClick={updateFlowChart} />
+          <Button onClick={updateFlowChart} title={'Save'} loading={isSaving} />
         </div>
       )}
     </ReactFlow>
