@@ -15,7 +15,8 @@ const Dashboard = () => {
   const fetchUserData = () => {
     const data = localStorage.getItem('USER_DATA');
     const token = localStorage.getItem('AUTH_TOKEN');
-    setUser(JSON.parse(data));
+    const userData = { ...JSON.parse(data), token };
+    setUser(userData);
     fetchFlowData(token);
   };
 
@@ -48,7 +49,7 @@ const Dashboard = () => {
       </div>
       {flowData ? (
         <div className='h-screen w-4/5'>
-          <FlowComponent flowData={flowData} />
+          <FlowComponent user={user} flowData={flowData} />
         </div>
       ) : (
         <div className='w-4/5 h-screen'>

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
@@ -28,7 +28,7 @@ const nodeTypes = {
 
 const generateNodeId = () => `${Date.now()}`;
 
-const FlowComponent = ({ flowData }) => {
+const FlowComponent = ({ flowData, user: { token } }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(flowData?.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(flowData?.edges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -50,7 +50,6 @@ const FlowComponent = ({ flowData }) => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
       const type = event.dataTransfer.getData('application/reactflow');
 
       if (typeof type === 'undefined' || !type) {
@@ -95,10 +94,6 @@ const FlowComponent = ({ flowData }) => {
 
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
-  const updateFlowChart = () => {
-    console.log('These are the saved nodes', nodes);
-  };
-
   const handleNodeChange = (e) => {
     if (count.current === 0) {
       if (JSON.stringify(nodes) !== JSON.stringify(flowData?.nodes)) {
@@ -109,6 +104,46 @@ const FlowComponent = ({ flowData }) => {
     onNodesChange(e);
   };
 
+  const handleEdgeChange = (e) => {
+    if (count.current === 0) {
+      if (JSON.stringify(nodes) !== JSON.stringify(flowData?.nodes)) {
+        setShowSaveButton(true);
+        count.current += 1;
+      }
+    }
+    onEdgesChange(e);
+  };
+
+  const updateFlowChart = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/flow/updateFlow`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({ nodes, edges }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data?.message);
+        count.current = 0;
+      } else {
+        console.log(data?.error);
+      }
+      count.current = 0;
+    } catch (err) {
+      console.log('Could not update flow data', err);
+    }
+  };
+
+  useEffect(() => {
+    console.log('changing');
+  }, [nodes, edges]);
+
   return (
     <ReactFlow
       ref={ref}
@@ -116,7 +151,7 @@ const FlowComponent = ({ flowData }) => {
       edges={edges}
       nodeTypes={nodeTypes}
       onNodesChange={handleNodeChange}
-      onEdgesChange={onEdgesChange}
+      onEdgesChange={handleEdgeChange}
       onConnect={onConnect}
       onInit={setReactFlowInstance}
       onDrop={onDrop}
