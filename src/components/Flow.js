@@ -18,24 +18,30 @@ import ContextMenu from './menu/ContextMenu';
 
 import './menu/style.css';
 import CompleteNode from './custom-nodes/CompleteNode';
+import Button from './ui-components/Button';
+import { capitalizeString, generateContent } from '../utils';
 
 const initialNodes = [
   {
     id: '1',
     position: { x: 0, y: 0 },
-    data: { label: 'Email' },
+    data: {
+      label: 'Email',
+      content: 'This is email content',
+      isEditMode: false,
+    },
     type: 'email',
   },
   {
     id: '2',
     position: { x: 100, y: 200 },
-    data: { label: 'Delay', days: 4 },
+    data: { label: 'Delay', content: 'Wait 4 days', isEditMode: false },
     type: 'delay',
   },
   {
     id: '3',
     position: { x: 0, y: 400 },
-    data: { label: 'Another Delay' },
+    data: { label: 'Another Delay', content: 'Wait 0 day', isEditMode: false },
     type: 'delay',
   },
 ];
@@ -49,14 +55,16 @@ const nodeTypes = {
   complete: CompleteNode,
 };
 
-const getId = () => `${Date.now()}`;
+const generateNodeId = () => `${Date.now()}`;
 
 const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [menu, setMenu] = useState(null);
+  const [showSaveButton, setShowSaveButton] = useState(false);
   const ref = useRef(null);
+  const count = useRef(0);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -83,13 +91,15 @@ const Flow = () => {
         y: event.clientY,
       });
       const newNode = {
-        id: getId(),
+        id: generateNodeId(),
         type,
         position,
-        data: { label: type },
+        data: {
+          label: capitalizeString(type),
+          content: generateContent(type),
+          isEditMode: false,
+        },
       };
-      console.log(type);
-
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
@@ -115,6 +125,20 @@ const Flow = () => {
 
   const onPaneClick = useCallback(() => setMenu(null), [setMenu]);
 
+  const updateFlowChart = () => {
+    console.log('These are the saved nodes', nodes);
+  };
+
+  const handleNodeChange = (e) => {
+    if (count.current === 0) {
+      if (JSON.stringify(nodes) !== JSON.stringify(initialNodes)) {
+        setShowSaveButton(true);
+        count.current += 1;
+      }
+    }
+    onNodesChange(e);
+  };
+
   return (
     <div className='w-screen h-screen bg-gray-300 flex'>
       <div className='h-screen w-1/5 bg-white'>
@@ -126,7 +150,7 @@ const Flow = () => {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
+          onNodesChange={handleNodeChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onInit={setReactFlowInstance}
@@ -144,11 +168,11 @@ const Flow = () => {
               <ContextMenu onClick={onPaneClick} {...menu} />
             </div>
           )}
-          <div className='absolute right-0 m-5 z-50'>
-            <div className='py-2 px-6 bg-blue-500 rounded-md hover:bg-blue-600 transition-all duration-300 text-white cursor-pointer'>
-              Save
+          {showSaveButton && (
+            <div className='absolute right-0 m-5 z-50'>
+              <Button onClick={updateFlowChart} />
             </div>
-          </div>
+          )}
         </ReactFlow>
       </div>
     </div>

@@ -18,7 +18,7 @@ const DraggableComponent = () => {
           onDragStart={(event) => onDragStart(event, 'defaultNode')}
           draggable
         >
-          <div className='flex bg-white p-3 justify-center border-[1px] rounded-md'>
+          <div className='flex bg-white p-3 border-[1px] rounded-md capitalize min-w-56 hover:shadow-md transition-all duration-300'>
             <p className='font-semibold'>Default</p>
           </div>
         </div>
@@ -28,7 +28,7 @@ const DraggableComponent = () => {
           onDragStart={(event) => onDragStart(event, 'email')}
           draggable
         >
-          <div className='flex bg-white p-3 border-[1px] rounded-md'>
+          <div className='flex bg-white p-3 border-[1px] rounded-md capitalize min-w-56 hover:shadow-md transition-all duration-300'>
             <div className='p-2 border-[1px] border-[#8929e0] rounded-md bg-[#e3ccf8]'>
               <HiOutlineMail color='#8929e0' size={30} />
             </div>
@@ -44,7 +44,7 @@ const DraggableComponent = () => {
           onDragStart={(event) => onDragStart(event, 'delay')}
           draggable
         >
-          <div className='flex bg-white p-3 border-[1px] rounded-md'>
+          <div className='flex bg-white p-3 border-[1px] rounded-md capitalize min-w-56 hover:shadow-md transition-all duration-300'>
             <div className='p-2 border-[1px] border-[#01a7ff] rounded-md bg-[#eaf1f7]'>
               <HiOutlineClock color='#01a7ff' size={30} />
             </div>
