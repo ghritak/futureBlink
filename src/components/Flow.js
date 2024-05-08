@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -17,6 +17,7 @@ import DefaultNode from './custom-nodes/DefaultNode';
 import ContextMenu from './menu/ContextMenu';
 
 import './menu/style.css';
+import CompleteNode from './custom-nodes/CompleteNode';
 
 const initialNodes = [
   {
@@ -45,10 +46,10 @@ const nodeTypes = {
   defaultNode: DefaultNode,
   email: EmailNode,
   delay: DelayNode,
+  complete: CompleteNode,
 };
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `${Date.now()}`;
 
 const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);

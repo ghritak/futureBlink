@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useReactFlow } from 'reactflow';
 import { GoCopy } from 'react-icons/go';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
 
 export default function ContextMenu({
   id,
@@ -33,12 +34,23 @@ export default function ContextMenu({
     setEdges((edges) => edges.filter((edge) => edge.source !== id));
   }, [id, setNodes, setEdges]);
 
+  const editNode = useCallback(() => {
+    console.log(id);
+  }, [id]);
+
   return (
     <div
       style={{ top, left, right, bottom }}
       {...props}
       className='context-menu w-40 shadow-lg'
     >
+      <div
+        className='w-40 max-w-40 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
+        onClick={editNode}
+      >
+        <FiEdit />
+        <p className='pl-2'>Edit</p>
+      </div>
       <div
         className='w-40 max-w-40 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
         onClick={duplicateNode}
