@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 const ProfileComponent = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = () => {
+    const data = localStorage.getItem('USER_DATA');
+    setUser(JSON.parse(data));
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   return (
     <div className='mt-auto pb-6 space-y-4'>
       <div className='flex bg-white p-3 border-[1px] rounded-md'>
@@ -10,11 +26,14 @@ const ProfileComponent = () => {
           <AiOutlineUser color='white' size={30} />
         </div>
         <div className='pl-2'>
-          <h2 className='font-bold font-sans'>Ghritak Jyoti Kalita</h2>
-          <p>ghritakjyotikalita@gmail.com</p>
+          <h2 className='font-bold font-sans'>{user?.name}</h2>
+          <p>{user?.email}</p>
         </div>
       </div>
-      <div className='flex bg-white p-3 border-[1px] rounded-md items-center cursor-pointer transition-all duration-300 hover:bg-gray-100'>
+      <div
+        onClick={handleLogout}
+        className='flex bg-white p-3 border-[1px] rounded-md items-center cursor-pointer transition-all duration-300 hover:bg-gray-100'
+      >
         <IoLogOutOutline size={24} color='red' />
         <p className='pl-2 font-semibold'>Log Out</p>
       </div>

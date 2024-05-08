@@ -1,25 +1,12 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
 import RouteComponent from './routes/Route';
-import { BrowserRouter } from 'react-router-dom';
+import UserProvider from './context/UserContext';
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = async () => {
-    const user = localStorage.getItem('AUTH_TOKEN');
-    if (user) {
-      setAuthenticated(true);
-    }
-  };
-
   return (
-    <BrowserRouter>
-      <RouteComponent isAuthenticated={isAuthenticated} />
-    </BrowserRouter>
+    <UserProvider>
+      <RouteComponent />
+    </UserProvider>
   );
 }
 
