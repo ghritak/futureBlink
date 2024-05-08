@@ -21,13 +21,16 @@ const Dashboard = () => {
 
   const fetchFlowData = async (token) => {
     try {
-      const response = await fetch('http://localhost:4000/api/flow/getflow', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/flow/getflow`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         const { flowData: flows } = data;
