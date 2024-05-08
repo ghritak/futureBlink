@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { AiOutlineUser } from 'react-icons/ai';
 import { IoLogOutOutline } from 'react-icons/io5';
 
-const ProfileComponent = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  const fetchUserData = () => {
-    const data = localStorage.getItem('USER_DATA');
-    setUser(JSON.parse(data));
-  };
-
+const ProfileComponent = ({ user }) => {
   const handleLogout = () => {
     localStorage.clear();
     window.location.reload();

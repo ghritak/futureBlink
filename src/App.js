@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import RouteComponent from './routes/Route';
 import UserProvider from './context/UserContext';
 

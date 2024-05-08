@@ -4,7 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../views/Login';
 import Signup from '../views/Signup';
 import { UserContext } from '../context/UserContext';
-import Flow from '../views/Flow';
+import Dashboard from '../components/dashboard/Dashboard';
 import NotFound from '../views/NoPage';
 import LoaderView from '../views/LoaderView';
 
@@ -13,7 +13,6 @@ const RouteComponent = () => {
 
   useEffect(() => {
     fetchUserData();
-    console.log('changed', authStatus);
   }, [authStatus]);
 
   const fetchUserData = async () => {
@@ -32,7 +31,7 @@ const RouteComponent = () => {
       <Routes>
         {authStatus === 'authenticated' ? (
           <>
-            <Route path='/' element={<Flow />} />
+            <Route path='/' element={<Dashboard />} />
             <Route path='*' element={<NotFound />} />
           </>
         ) : (

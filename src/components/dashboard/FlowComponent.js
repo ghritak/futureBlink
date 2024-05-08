@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
@@ -8,18 +9,15 @@ import ReactFlow, {
   addEdge,
   Background,
 } from 'reactflow';
-
+import DefaultNode from '../custom-nodes/DefaultNode';
+import EmailNode from '../custom-nodes/EmailNode';
+import DelayNode from '../custom-nodes/DelayNode';
+import CompleteNode from '../custom-nodes/CompleteNode';
+import { capitalizeString, generateContent } from '../../utils';
+import ContextMenu from '../menu/ContextMenu';
+import Button from '../ui-components/button/Button';
 import 'reactflow/dist/style.css';
-
-// import './components/menu/style.css';
-import CompleteNode from '../components/custom-nodes/CompleteNode';
-import DelayNode from '../components/custom-nodes/DelayNode';
-import EmailNode from '../components/custom-nodes/EmailNode';
-import DefaultNode from '../components/custom-nodes/DefaultNode';
-import { capitalizeString, generateContent } from '../utils';
-import SideBar from '../components/side-bar/SideBar';
-import ContextMenu from '../components/menu/ContextMenu';
-import Button from '../components/ui-components/button/Button';
+import '../menu/style.css';
 
 const initialNodes = [
   {
@@ -28,25 +26,27 @@ const initialNodes = [
     data: {
       label: 'Email',
       content: 'This is email content',
-      isEditMode: false,
     },
     type: 'email',
   },
   {
     id: '2',
     position: { x: 100, y: 200 },
-    data: { label: 'Delay', content: 'Wait 4 days', isEditMode: false },
+    data: { label: 'Delay', content: 'Wait 4 days' },
     type: 'delay',
   },
   {
     id: '3',
     position: { x: 0, y: 400 },
-    data: { label: 'Another Delay', content: 'Wait 0 day', isEditMode: false },
+    data: { label: 'Another Delay', content: 'Wait 0 day' },
     type: 'delay',
   },
 ];
 
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+const initialEdges = [
+  { id: 'e1-2', source: '1', target: '2' },
+  { id: 'e2-3', source: '2', target: '3' },
+];
 
 const nodeTypes = {
   defaultNode: DefaultNode,
@@ -57,7 +57,7 @@ const nodeTypes = {
 
 const generateNodeId = () => `${Date.now()}`;
 
-const Flow = () => {
+const FlowComponent = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -97,7 +97,6 @@ const Flow = () => {
         data: {
           label: capitalizeString(type),
           content: generateContent(type),
-          isEditMode: false,
         },
       };
       setNodes((nds) => nds.concat(newNode));
@@ -140,43 +139,36 @@ const Flow = () => {
   };
 
   return (
-    <div className='w-screen h-screen bg-gray-300 flex'>
-      <div className='h-screen w-1/5 bg-white'>
-        <SideBar />
-      </div>
-      <div className='h-screen w-4/5'>
-        <ReactFlow
-          ref={ref}
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          onNodesChange={handleNodeChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onInit={setReactFlowInstance}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onPaneClick={onPaneClick}
-          onNodeContextMenu={onNodeContextMenu}
-          fitView
-        >
-          <MiniMap />
-          <Controls />
-          <Background />
-          {menu && (
-            <div className='bg-red-300'>
-              <ContextMenu onClick={onPaneClick} {...menu} />
-            </div>
-          )}
-          {showSaveButton && (
-            <div className='absolute right-0 m-5 z-50'>
-              <Button onClick={updateFlowChart} />
-            </div>
-          )}
-        </ReactFlow>
-      </div>
-    </div>
+    <ReactFlow
+      ref={ref}
+      nodes={nodes}
+      edges={edges}
+      nodeTypes={nodeTypes}
+      onNodesChange={handleNodeChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onInit={setReactFlowInstance}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      onPaneClick={onPaneClick}
+      onNodeContextMenu={onNodeContextMenu}
+      fitView
+    >
+      <MiniMap />
+      <Controls />
+      <Background />
+      {menu && (
+        <div className=''>
+          <ContextMenu onClick={onPaneClick} {...menu} />
+        </div>
+      )}
+      {showSaveButton && (
+        <div className='absolute right-0 m-5 z-50'>
+          <Button onClick={updateFlowChart} />
+        </div>
+      )}
+    </ReactFlow>
   );
 };
 
-export default Flow;
+export default FlowComponent;
