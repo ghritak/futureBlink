@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   MiniMap,
@@ -13,7 +13,7 @@ import DefaultNode from '../custom-nodes/DefaultNode';
 import EmailNode from '../custom-nodes/EmailNode';
 import DelayNode from '../custom-nodes/DelayNode';
 import CompleteNode from '../custom-nodes/CompleteNode';
-import { capitalizeString, generateContent } from '../../utils';
+import { capitalizeString, generateContent, generateNodeId } from '../../utils';
 import ContextMenu from '../menu/ContextMenu';
 import Button from '../ui-components/button/Button';
 import 'reactflow/dist/style.css';
@@ -25,8 +25,6 @@ const nodeTypes = {
   delay: DelayNode,
   complete: CompleteNode,
 };
-
-const generateNodeId = () => `${Date.now()}`;
 
 const FlowComponent = ({ flowData, user: { token } }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(flowData?.nodes);
@@ -143,10 +141,6 @@ const FlowComponent = ({ flowData, user: { token } }) => {
       setSaving(false);
     }
   };
-
-  useEffect(() => {
-    console.log('changing');
-  }, [nodes, edges]);
 
   return (
     <ReactFlow

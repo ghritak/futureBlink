@@ -7,3 +7,5 @@ export function generateContent(type) {
   if (type === 'delay') return 'Wait 1 day';
   if (type === 'complete') return 'Task completed';
 }
+
+export const generateNodeId = () => `${Date.now()}`;

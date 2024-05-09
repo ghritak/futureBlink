@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import SideBar from '../side-bar/SideBar';
 import FlowComponent from './FlowComponent';
 import LoaderView from '../../views/LoaderView';
+import { ReactFlowProvider } from 'reactflow';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -43,18 +44,20 @@ const Dashboard = () => {
   };
 
   return (
-    <div className='w-screen h-screen bg-gray-300 flex'>
-      <SideBar user={user} />
-      {flowData ? (
-        <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
-          <FlowComponent user={user} flowData={flowData} />
-        </div>
-      ) : (
-        <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
-          <LoaderView />
-        </div>
-      )}
-    </div>
+    <ReactFlowProvider>
+      <div className='w-screen h-screen bg-gray-300 flex'>
+        <SideBar user={user} />
+        {flowData ? (
+          <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
+            <FlowComponent user={user} flowData={flowData} />
+          </div>
+        ) : (
+          <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
+            <LoaderView />
+          </div>
+        )}
+      </div>
+    </ReactFlowProvider>
   );
 };
 

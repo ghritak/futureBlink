@@ -10,7 +10,7 @@ const ProfileComponent = ({ user }) => {
 
   return (
     <div className='mt-auto pb-6 space-y-4'>
-      <div className='flex bg-white p-3 border-[1px] rounded-md'>
+      <div className='flex items-start bg-white p-3 border-[1px] rounded-md'>
         <div className='p-2 rounded-md bg-gray-300'>
           <AiOutlineUser color='white' size={30} />
         </div>

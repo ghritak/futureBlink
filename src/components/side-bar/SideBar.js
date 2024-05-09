@@ -23,10 +23,10 @@ const SideBar = ({ user }) => {
           isMenuVisible ? 'left-0 w-screen' : '-left-80'
         } lg:left-0  lg:relative lg:w-1/4 xl:w-1/5  transition-all duration-300 flex flex-row`}
       >
-        <div className='px-3 xl:px-6 lg:w-full bg-white space-y-4 pt-6 h-screen flex flex-col'>
+        <div className='px-3 xl:px-6 w-2/3 lg:w-full bg-white space-y-4 pt-6 h-screen flex flex-col'>
           <div className='mb-auto'>
             <CompanyComponent />
-            <DraggableComponent />
+            <DraggableComponent setMenuVisible={setMenuVisible} />
           </div>
           <ProfileComponent user={user} />
         </div>
@@ -34,8 +34,8 @@ const SideBar = ({ user }) => {
           onClick={() => {
             setMenuVisible(!isMenuVisible);
           }}
-          className={`h-screen w-full lg:w-0 transition-opacity duration-1500 ${
-            isMenuVisible ? 'bg-black opacity-100 bg-opacity-25' : ' opacity-0'
+          className={`h-screen w-1/3 sm:w-full lg:w-0 transition-opacity duration-1500 ${
+            isMenuVisible ? 'bg-black opacity-100 bg-opacity-25' : 'opacity-0'
           }`}
         ></div>
       </div>
