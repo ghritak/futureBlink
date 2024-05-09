@@ -18,11 +18,11 @@ const Toast = () => {
       style={{ zIndex: 1000 }}
     >
       <div
-        className='relative p-4 flex items-center rounded-lg w-80 bg-[#242d3a] text-white'
+        className='relative p-3 md:p-4 flex items-center rounded-lg w-80 bg-[#242d3a] text-white'
         style={{ zIndex: 1000 }}
       >
         <div>
-          <CiCircleCheck color='green' size={30} />
+          <CiCircleCheck color='#4BE83F' size={24} />
         </div>
         <div className='ml-3'>
           <p className='text-sm'>{toast?.text}</p>
