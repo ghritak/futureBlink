@@ -72,7 +72,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
         type,
         position,
         data: {
-          label: capitalizeString(type),
+          label: capitalizeString(type === 'defaultNode' ? 'Default' : type),
           content: generateContent(type),
         },
       };
