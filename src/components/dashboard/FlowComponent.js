@@ -18,6 +18,7 @@ import ContextMenu from '../menu/ContextMenu';
 import Button from '../ui-components/button/Button';
 import 'reactflow/dist/style.css';
 import '../menu/style.css';
+import useToast from '../../hooks/useToast';
 
 const nodeTypes = {
   defaultNode: DefaultNode,
@@ -35,6 +36,8 @@ const FlowComponent = ({ flowData, user: { token } }) => {
   const [isSaving, setSaving] = useState(false);
   const ref = useRef(null);
   const count = useRef(0);
+
+  const showToast = useToast();
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -136,6 +139,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
       }
       count.current = 0;
       setSaving(false);
+      showToast('normal', 'Flow updated succesfully.');
     } catch (err) {
       console.log('Could not update flow data', err);
       setSaving(false);
@@ -143,35 +147,41 @@ const FlowComponent = ({ flowData, user: { token } }) => {
   };
 
   return (
-    <ReactFlow
-      ref={ref}
-      nodes={nodes}
-      edges={edges}
-      nodeTypes={nodeTypes}
-      onNodesChange={handleNodeChange}
-      onEdgesChange={handleEdgeChange}
-      onConnect={onConnect}
-      onInit={setReactFlowInstance}
-      onDrop={onDrop}
-      onDragOver={onDragOver}
-      onPaneClick={onPaneClick}
-      onNodeContextMenu={onNodeContextMenu}
-      fitView
-    >
-      <MiniMap />
-      <Controls />
-      <Background />
-      {menu && (
-        <div className=''>
-          <ContextMenu onClick={onPaneClick} {...menu} />
-        </div>
-      )}
-      {showSaveButton && (
-        <div className='absolute right-0 m-5 z-50'>
-          <Button onClick={updateFlowChart} title={'Save'} loading={isSaving} />
-        </div>
-      )}
-    </ReactFlow>
+    <>
+      <ReactFlow
+        ref={ref}
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={handleNodeChange}
+        onEdgesChange={handleEdgeChange}
+        onConnect={onConnect}
+        onInit={setReactFlowInstance}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onPaneClick={onPaneClick}
+        onNodeContextMenu={onNodeContextMenu}
+        fitView
+      >
+        <MiniMap />
+        <Controls />
+        <Background />
+        {menu && (
+          <div className=''>
+            <ContextMenu onClick={onPaneClick} {...menu} />
+          </div>
+        )}
+        {showSaveButton && (
+          <div className='absolute right-0 m-5 z-50'>
+            <Button
+              onClick={updateFlowChart}
+              title={'Save'}
+              loading={isSaving}
+            />
+          </div>
+        )}
+      </ReactFlow>
+    </>
   );
 };
 
