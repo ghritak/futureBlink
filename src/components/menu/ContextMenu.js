@@ -35,23 +35,23 @@ export default function ContextMenu({
 
   return (
     <div
-      style={{ top, left, right, bottom }}
+      style={{ top, left, right, bottom, zIndex: 1000 }}
       {...props}
-      className='context-menu w-40 shadow-lg z-50'
+      className='context-menu w-28 shadow-lg z-50 bg-red-300'
     >
       <div
-        className='w-40 max-w-40 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
+        className='w-28 max-w-28 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
         onClick={duplicateNode}
       >
-        <GoCopy />
-        <p className='pl-2'>Duplicate</p>
+        <GoCopy size={14} />
+        <p className='pl-2 text-sm'>Duplicate</p>
       </div>
       <div
-        className='w-40 max-w-40 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
+        className='w-28 max-w-28 bg-[#f6f6f6] hover:bg-gray-200 flex items-center p-2 cursor-pointer transition-all duration-300'
         onClick={deleteNode}
       >
-        <AiOutlineDelete />
-        <p className='pl-2'>Delete</p>
+        <AiOutlineDelete size={14} />
+        <p className='pl-2 text-sm'>Delete</p>
       </div>
     </div>
   );

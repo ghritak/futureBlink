@@ -13,7 +13,12 @@ import DefaultNode from '../custom-nodes/DefaultNode';
 import EmailNode from '../custom-nodes/EmailNode';
 import DelayNode from '../custom-nodes/DelayNode';
 import CompleteNode from '../custom-nodes/CompleteNode';
-import { capitalizeString, generateContent, generateNodeId } from '../../utils';
+import {
+  capitalizeString,
+  generateContent,
+  generateNodeId,
+  getMenuLeftPosition,
+} from '../../utils';
 import ContextMenu from '../menu/ContextMenu';
 import Button from '../ui-components/button/Button';
 import 'reactflow/dist/style.css';
@@ -80,16 +85,15 @@ const FlowComponent = ({ flowData, user: { token } }) => {
     (event, node) => {
       event.preventDefault();
       const pane = ref.current.getBoundingClientRect();
-
-      setMenu({
+      const menuPosition = {
         id: node.id,
         top: event.clientY < pane.height - 200 && event.clientY,
-        left:
-          event.clientX < pane.width && event.clientX - window.innerWidth / 5,
+        left: getMenuLeftPosition(event, pane),
         right: event.clientX >= pane.width - 200 && pane.width - event.clientX,
         bottom:
           event.clientY >= pane.height - 200 && pane.height - event.clientY,
-      });
+      };
+      setMenu(menuPosition);
     },
     [setMenu]
   );
@@ -172,7 +176,7 @@ const FlowComponent = ({ flowData, user: { token } }) => {
           </div>
         )}
         {showSaveButton && (
-          <div className='absolute right-0 m-5 z-50'>
+          <div className='absolute right-0 m-5 z-10'>
             <Button
               onClick={updateFlowChart}
               title={'Save'}
