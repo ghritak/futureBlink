@@ -44,15 +44,13 @@ const Dashboard = () => {
 
   return (
     <div className='w-screen h-screen bg-gray-300 flex'>
-      <div className='h-screen w-1/5 bg-white'>
-        <SideBar user={user} />
-      </div>
+      <SideBar user={user} />
       {flowData ? (
-        <div className='h-screen w-4/5'>
+        <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
           <FlowComponent user={user} flowData={flowData} />
         </div>
       ) : (
-        <div className='w-4/5 h-screen'>
+        <div className='h-screen w-screen lg:w-3/4 xl:w-4/5'>
           <LoaderView />
         </div>
       )}
